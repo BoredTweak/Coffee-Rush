@@ -65,13 +65,26 @@ public static class ResourceKeeper
 							
 							if(producer.Modifier.IncreasingResource.Type == Resource.Cash.Type)
 							{
-								Experience.Points += producer.Modifier.IncreaseRate * producer.Quantity;;
+								Experience.Points += producer.Modifier.IncreaseRate * producer.Quantity;
 								SaveData.SaveProgression ((int)Experience.Points);
 							}
 							resourceList.Find(x => x.Type == producer.Modifier.DecreasingResource.Type).Quantity -= producerNeeds;
 							resourceList.Find (x => x.Type == producer.Modifier.IncreasingResource.Type).Quantity += producer.Modifier.IncreaseRate * producer.Quantity;
 							producer.CurrentTimer = producer.MaxTimer;
 						}
+                        else
+                        {
+                            float partialQuantityPercent = resourceList.Find(x => x.Type == producer.Modifier.DecreasingResource.Type).Quantity / producerNeeds;
+
+                            if (producer.Modifier.IncreasingResource.Type == Resource.Cash.Type)
+                            {
+                                Experience.Points += producer.Modifier.IncreaseRate * producer.Quantity * partialQuantityPercent;
+                                SaveData.SaveProgression((int)Experience.Points);
+                            }
+                            resourceList.Find(x => x.Type == producer.Modifier.DecreasingResource.Type).Quantity -= producerNeeds * partialQuantityPercent;
+                            resourceList.Find(x => x.Type == producer.Modifier.IncreasingResource.Type).Quantity += producer.Modifier.IncreaseRate * producer.Quantity * partialQuantityPercent;
+                            producer.CurrentTimer = producer.MaxTimer;
+                        }
 					}
 					else
 					{

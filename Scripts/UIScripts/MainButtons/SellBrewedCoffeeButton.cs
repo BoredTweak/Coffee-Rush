@@ -37,5 +37,7 @@ public class SellBrewedCoffeeButton : MonoBehaviour {
         ResourceKeeper.resourceList[(int)ResourceName.Brewed_Coffee].Quantity -= ResourceKeeper.resourceList[(int)ResourceName.Brewed_Coffee].Cost * QuantityModifier.QuantityMod;
         GetComponent<ParticleSystem>().Play();
         SaveData.SaveResources();
+        Experience.Points += 2 * QuantityModifier.QuantityMod;
+        SaveData.SaveProgression((int)Experience.Points);
     }
 }
