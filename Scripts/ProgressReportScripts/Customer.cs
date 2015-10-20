@@ -9,4 +9,12 @@ public class Customer
 	public float Cash{get;set;}
     public float RemainingTime { get; set; }
 
+    public Customer(string name, string food, string drink, float cash, float remainingTime)
+    {
+        Name = name;
+        Food = food;
+        Drink = drink;
+        Cash = cash;
+        RemainingTime = remainingTime;
+    }
 }
